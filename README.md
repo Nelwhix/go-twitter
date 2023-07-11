@@ -1,4 +1,4 @@
-# go-twitter [![GoDoc](https://pkg.go.dev/badge/github.com/dghubble/go-twitter.svg)](https://pkg.go.dev/github.com/dghubble/go-twitter) [![Workflow](https://github.com/dghubble/go-twitter/actions/workflows/test.yaml/badge.svg)](https://github.com/dghubble/go-twitter/actions/workflows/test.yaml?query=branch%3Amain) [![Sponsors](https://img.shields.io/github/sponsors/dghubble?logo=github)](https://github.com/sponsors/dghubble) [![Twitter](https://img.shields.io/badge/twitter-follow-1da1f2?logo=twitter)](https://twitter.com/dghubble)
+# go-twitter [![GoDoc](https://pkg.go.dev/badge/github.com/nelwhix/go-twitter.svg)](https://pkg.go.dev/github.com/nelwhix/go-twitter) [![Workflow](https://github.com/nelwhix/go-twitter/actions/workflows/test.yaml/badge.svg)](https://github.com/nelwhix/go-twitter/actions/workflows/test.yaml?query=branch%3Amain) [![Sponsors](https://img.shields.io/github/sponsors/dghubble?logo=github)](https://github.com/sponsors/dghubble) [![Twitter](https://img.shields.io/badge/twitter-follow-1da1f2?logo=twitter)](https://twitter.com/dghubble)
 
 **DEPRECATED** As of Nov 2022, the go-twitter API library is no longer being developed. If you fork this repo, please remove the logo since it is not covered by the license.
 
@@ -31,11 +31,11 @@ go-twitter is a Go client library for the [Twitter API](https://dev.twitter.com/
 
 ## Install
 
-    go get github.com/dghubble/go-twitter/twitter
+    go get github.com/nelwhix/go-twitter/twitter
 
 ## Documentation
 
-Read [GoDoc](https://godoc.org/github.com/dghubble/go-twitter/twitter)
+Read [GoDoc](https://godoc.org/github.com/nelwhix/go-twitter/twitter)
 
 ## Usage
 
@@ -228,7 +228,7 @@ For example, make requests as a consumer application on behalf of a user who has
 ```go
 // OAuth1
 import (
-    "github.com/dghubble/go-twitter/twitter"
+    "github.com/nelwhix/go-twitter/twitter"
     "github.com/dghubble/oauth1"
 )
 
@@ -246,7 +246,7 @@ If no user auth context is needed, make requests as your application with applic
 ```go
 // OAuth2
 import (
-    "github.com/dghubble/go-twitter/twitter"
+    "github.com/nelwhix/go-twitter/twitter"
     "golang.org/x/oauth2"
     "golang.org/x/oauth2/clientcredentials"
 )

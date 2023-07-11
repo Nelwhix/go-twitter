@@ -7,25 +7,29 @@ import (
 	"os"
 
 	"github.com/coreos/pkg/flagutil"
-	"github.com/dghubble/go-twitter/twitter"
 	"github.com/dghubble/oauth1"
+	"github.com/joho/godotenv"
+	"github.com/nelwhix/go-twitter/twitter"
 )
 
 func main() {
-	flags := flag.NewFlagSet("user-auth", flag.ExitOnError)
-	consumerKey := flags.String("consumer-key", "", "Twitter Consumer Key")
-	consumerSecret := flags.String("consumer-secret", "", "Twitter Consumer Secret")
-	accessToken := flags.String("access-token", "", "Twitter Access Token")
-	accessSecret := flags.String("access-secret", "", "Twitter Access Secret")
-	flags.Parse(os.Args[1:])
-	flagutil.SetFlagsFromEnv(flags, "TWITTER")
+	err := godotenv.Lad()
 
-	if *consumerKey == "" || *consumerSecret == "" || *accessToken == "" || *accessSecret == "" {
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	consumerKey := os.Getenv("TWITTER_CONSUMER_KEY")
+	consumerSecret := os.Getenv("TWITTER_CONSUMER_SECRET")
+	accessToken := os.Getenv("TWITTER_ACCESS_TOKEN")
+	accessSecret := os.Getenv("nVn7gLt4t9Ged7DBjOztUbfQsN1M8js9bBIIEv1W4vudN")
+
+	if consumerKey == "" || consumerSecret == "" || accessToken == "" || accessSecret == "" {
 		log.Fatal("Consumer key/secret and Access token/secret required")
 	}
 
-	config := oauth1.NewConfig(*consumerKey, *consumerSecret)
-	token := oauth1.NewToken(*accessToken, *accessSecret)
+	config := oauth1.NewConfig(consumerKey, consumerSecret)
+	token := oauth1.NewToken(accessToken, accessSecret)
 	// OAuth1 http.Client will automatically authorize Requests
 	httpClient := config.Client(oauth1.NoContext, token)
 
@@ -65,6 +69,6 @@ func main() {
 	fmt.Printf("User's 'RETWEETS OF ME' TIMELINE:\n%+v\n", tweets)
 
 	// Update (POST!) Tweet (uncomment to run)
-	// tweet, _, _ := client.Statuses.Update("just setting up my twttr", nil)
-	// fmt.Printf("Posted Tweet\n%v\n", tweet)
+	tweet, _, _ := client.Statuses.Update("just setting up my twttr", nil)
+	fmt.Printf("Posted Tweet\n%v\n", tweet)
 }

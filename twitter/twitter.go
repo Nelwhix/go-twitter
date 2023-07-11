@@ -6,7 +6,8 @@ import (
 	"github.com/dghubble/sling"
 )
 
-const twitterAPI = "https://api.twitter.com/1.1/"
+const API_V1 = "https://api.twitter.com/1.1/"
+const API_V2 = "https://api.twitter.com/2/"
 
 // Client is a Twitter client for making Twitter API requests.
 type Client struct {
@@ -32,7 +33,8 @@ type Client struct {
 
 // NewClient returns a new Client.
 func NewClient(httpClient *http.Client) *Client {
-	base := sling.New().Client(httpClient).Base(twitterAPI)
+	base := sling.New().Client(httpClient).Base(API_V1)
+	
 	return &Client{
 		sling:          base,
 		Accounts:       newAccountService(base.New()),

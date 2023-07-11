@@ -9,8 +9,8 @@ import (
 	"syscall"
 
 	"github.com/coreos/pkg/flagutil"
-	"github.com/dghubble/go-twitter/twitter"
 	"github.com/dghubble/oauth1"
+	"github.com/nelwhix/go-twitter/twitter"
 )
 
 func main() {
