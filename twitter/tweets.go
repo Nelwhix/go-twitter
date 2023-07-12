@@ -108,7 +108,7 @@ type StatusService struct {
 // newStatusService returns a new StatusService.
 func newStatusService(sling *sling.Sling) *StatusService {
 	return &StatusService{
-		sling: sling.Path("statuses/"),
+		sling: sling.Path("tweets"),
 	}
 }
 

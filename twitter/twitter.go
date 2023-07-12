@@ -33,7 +33,7 @@ type Client struct {
 
 // NewClient returns a new Client.
 func NewClient(httpClient *http.Client) *Client {
-	base := sling.New().Client(httpClient).Base(API_V1)
+	base := sling.New().Client(httpClient).Base(API_V2)
 	
 	return &Client{
 		sling:          base,

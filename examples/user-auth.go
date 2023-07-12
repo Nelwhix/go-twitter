@@ -1,19 +1,17 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log"
 	"os"
 
-	"github.com/coreos/pkg/flagutil"
 	"github.com/dghubble/oauth1"
 	"github.com/joho/godotenv"
 	"github.com/nelwhix/go-twitter/twitter"
 )
 
 func main() {
-	err := godotenv.Lad()
+	err := godotenv.Load()
 
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -22,7 +20,7 @@ func main() {
 	consumerKey := os.Getenv("TWITTER_CONSUMER_KEY")
 	consumerSecret := os.Getenv("TWITTER_CONSUMER_SECRET")
 	accessToken := os.Getenv("TWITTER_ACCESS_TOKEN")
-	accessSecret := os.Getenv("nVn7gLt4t9Ged7DBjOztUbfQsN1M8js9bBIIEv1W4vudN")
+	accessSecret := os.Getenv("TWITTER_ACCESS_SECRET")
 
 	if consumerKey == "" || consumerSecret == "" || accessToken == "" || accessSecret == "" {
 		log.Fatal("Consumer key/secret and Access token/secret required")
