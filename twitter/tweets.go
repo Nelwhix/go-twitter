@@ -40,12 +40,7 @@ func newTweetService(sling *sling.Sling) *TweetService {
 type PostTweetParams struct {
 	DirectMessageDeepLink	string 			`json:"direct_message_deep_link,omitempty"`
 	ForSuperFollowersOnly 	bool 			`json:"for_super_followers_only,omitempty"`
-	Geo						TweetGeoObj 	`json:"geo,omitempty"`
-	Media 					TweetMedia 		`json:"media,omitempty"`
-	Poll					TweetPoll		`json:"poll,omitempty"`
 	QuoteTweetId			string 			`json:"quote_tweet_id,omitempty"`
-	Reply					TweetReply		`json:"reply,omitempty"`
-	ReplySettings			ReplySetting	`json:"reply_settings,omitempty"`
 	Text 					string 			`json:"text,omitempty"`
 }
 
