@@ -38,15 +38,15 @@ func newTweetService(sling *sling.Sling) *TweetService {
 
 // StatusUpdateParams are the parameters for StatusService.Update
 type PostTweetParams struct {
-	DirectMessageDeepLink	string 			`url:"direct_message_deep_link,omitempty"`
-	ForSuperFollowersOnly 	bool 			`url:"for_super_followers_only,omitempty"`
-	Geo						TweetGeoObj 	`url:"geo,omitempty"`
-	Media 					TweetMedia 		`url:"media,omitempty"`
-	Poll					TweetPoll		`url:"poll,omitempty"`
-	QuoteTweetId			string 			`url:"quote_tweet_id,omitempty"`
-	Reply					TweetReply		`url:"reply,omitempty"`
-	ReplySettings			ReplySetting	`url:"reply_settings,omitempty"`
-	Text 					string 			`url:"text,omitempty"`
+	DirectMessageDeepLink	string 			`json:"direct_message_deep_link,omitempty"`
+	ForSuperFollowersOnly 	bool 			`json:"for_super_followers_only,omitempty"`
+	Geo						TweetGeoObj 	`json:"geo,omitempty"`
+	Media 					TweetMedia 		`json:"media,omitempty"`
+	Poll					TweetPoll		`json:"poll,omitempty"`
+	QuoteTweetId			string 			`json:"quote_tweet_id,omitempty"`
+	Reply					TweetReply		`json:"reply,omitempty"`
+	ReplySettings			ReplySetting	`json:"reply_settings,omitempty"`
+	Text 					string 			`json:"text,omitempty"`
 }
 
 type ReplySetting string
@@ -57,23 +57,23 @@ const (
 )
 
 type TweetGeoObj struct {
-	PlaceId		string `url:"place_id,omitempty"`
+	PlaceId		string `json:"place_id,omitempty"`
 }
 
 type TweetMedia struct {
-	MediaIds 			[]string		`url:"media_ids,omitempty"`
-	TaggedUserIds		[]string		`url:"tagged_user_ids,omitempty"`
+	MediaIds 			[]string		`json:"media_ids,omitempty"`
+	TaggedUserIds		[]string		`json:"tagged_user_ids,omitempty"`
 }
 
 type TweetPoll struct {
-	DurationMinutes		int			`url:"duration_minutes,omitempty"`
-	Options				[]string	`url:"options,omitempty"`
+	DurationMinutes		int			`json:"duration_minutes,omitempty"`
+	Options				[]string	`json:"options,omitempty"`
 
 }
 
 type TweetReply struct {
-	ExcludeReplyUserIds			[]string		`url:"exclude_reply_user_ids,omitempty"`
-	InReplyToTweetId			string 			`url:"in_reply_to_tweet_id,omitempty"`
+	ExcludeReplyUserIds			[]string		`json:"exclude_reply_user_ids,omitempty"`
+	InReplyToTweetId			string 			`json:"in_reply_to_tweet_id,omitempty"`
 }
 
 // Post tweet makes a new tweet.
@@ -86,6 +86,9 @@ func (s *TweetService) PostTweet(text string, params *PostTweetParams) (*Tweet, 
 	params.Text = text
 	tweet := new(Tweet)
 	apiError := new(APIError)
-	resp, err := s.sling.New().Post("tweets").BodyForm(params).Receive(tweet, apiError)
+
+	resp, err := s.sling.New().Post("tweets").BodyJSON(params).Receive(tweet, apiError)
 	return tweet, resp, relevantError(err, *apiError)
 }
+
+
