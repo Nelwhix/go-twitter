@@ -86,6 +86,6 @@ func (s *TweetService) PostTweet(text string, params *PostTweetParams) (*Tweet, 
 	params.Text = text
 	tweet := new(Tweet)
 	apiError := new(APIError)
-	resp, err := s.sling.New().Post("tweets.json").BodyForm(params).Receive(tweet, apiError)
+	resp, err := s.sling.New().Post("tweets").BodyForm(params).Receive(tweet, apiError)
 	return tweet, resp, relevantError(err, *apiError)
 }
