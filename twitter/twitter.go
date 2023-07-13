@@ -13,22 +13,7 @@ const API_V2 = "https://api.twitter.com/2/"
 type Client struct {
 	sling *sling.Sling
 	// Twitter API Services
-	Accounts       *AccountService
-	Blocks         *BlockService
-	DirectMessages *DirectMessageService
-	Favorites      *FavoriteService
-	Followers      *FollowerService
-	Friends        *FriendService
-	Friendships    *FriendshipService
-	Lists          *ListsService
-	RateLimits     *RateLimitService
-	Search         *SearchService
-	PremiumSearch  *PremiumSearchService
-	Statuses       *StatusService
-	Streams        *StreamService
-	Timelines      *TimelineService
-	Trends         *TrendsService
-	Users          *UserService
+	Tweets      *TweetService
 }
 
 // NewClient returns a new Client.
@@ -37,22 +22,7 @@ func NewClient(httpClient *http.Client) *Client {
 	
 	return &Client{
 		sling:          base,
-		Accounts:       newAccountService(base.New()),
-		Blocks:         newBlockService(base.New()),
-		DirectMessages: newDirectMessageService(base.New()),
-		Favorites:      newFavoriteService(base.New()),
-		Followers:      newFollowerService(base.New()),
-		Friends:        newFriendService(base.New()),
-		Friendships:    newFriendshipService(base.New()),
-		Lists:          newListService(base.New()),
-		RateLimits:     newRateLimitService(base.New()),
-		Search:         newSearchService(base.New()),
-		PremiumSearch:  newPremiumSearchService(base.New()),
-		Statuses:       newStatusService(base.New()),
-		Streams:        newStreamService(httpClient, base.New()),
-		Timelines:      newTimelineService(base.New()),
-		Trends:         newTrendsService(base.New()),
-		Users:          newUserService(base.New()),
+		Tweets:       newTweetService(base.New()),
 	}
 }
 

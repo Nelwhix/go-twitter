@@ -5,29 +5,13 @@ import (
 )
 
 // APIError represents a Twitter API Error response
-// https://dev.twitter.com/overview/api/response-codes
 type APIError struct {
-	Errors []ErrorDetail `json:"errors"`
-}
-
-// ErrorDetail represents an individual item in an APIError.
-type ErrorDetail struct {
-	Message string `json:"message"`
-	Code    int    `json:"code"`
+	Status 		int			`json:"status"`
+	Detail		string 		`json:"detail"`
 }
 
 func (e APIError) Error() string {
-	if len(e.Errors) > 0 {
-		err := e.Errors[0]
-		return fmt.Sprintf("twitter: %d %v", err.Code, err.Message)
-	}
-	return ""
-}
-
-// Empty returns true if empty. Otherwise, at least 1 error message/code is
-// present and false is returned.
-func (e APIError) Empty() bool {
-	return len(e.Errors) == 0
+	return fmt.Sprintf("twitter: %d %v", e.Status, e.Detail)
 }
 
 // relevantError returns any non-nil http-related error (creating the request,
@@ -37,7 +21,8 @@ func relevantError(httpError error, apiError APIError) error {
 	if httpError != nil {
 		return httpError
 	}
-	if apiError.Empty() {
+
+	if apiError.Detail == "" {
 		return nil
 	}
 	return apiError
