@@ -33,7 +33,7 @@ type TweetService struct {
 // newTweetService returns a new TweetService.
 func newTweetService(sling *sling.Sling) *TweetService {
 	return &TweetService{
-		sling: sling.Path("tweets"),
+		sling: sling.Path(""),
 	}
 }
 
@@ -43,7 +43,7 @@ type PostTweetParams struct {
 	ForSuperFollowersOnly 	bool 			`json:"for_super_followers_only,omitempty"`
 	QuoteTweetId			string 			`json:"quote_tweet_id,omitempty"`
 	Text 					string 			`json:"text,omitempty"`
-	Media					TweetMedia		`json:"media,omitempty"`
+	Media					*TweetMedia		`json:"media,omitempty"`
 }
 
 type TweetMedia struct {
@@ -63,9 +63,7 @@ func (s *TweetService) PostTweet(text string, params *PostTweetParams) (*Tweet, 
 	tweet := new(Tweet)
 	apiError := new(APIError)
 
-	ddJSON(params)
-
-	resp, err := s.sling.New().Post("").BodyJSON(params).Receive(tweet, apiError)
+	resp, err := s.sling.New().Post("tweets").BodyJSON(params).Receive(tweet, apiError)
 	return tweet, resp, relevantError(err, *apiError)
 }
 
@@ -75,7 +73,7 @@ func (s *TweetService) PostTweet(text string, params *PostTweetParams) (*Tweet, 
 func (s *TweetService) Destroy(id string) (*Tweet, *http.Response, error) {
 	tweet := new(Tweet)
 	apiError := new(APIError)
-	path := fmt.Sprintf("/%v", id)
+	path := fmt.Sprintf("/tweets/%v", id)
 	resp, err := s.sling.New().Delete(path).Receive(tweet, apiError)
 
 	return tweet, resp, relevantError(err, *apiError)
@@ -96,7 +94,7 @@ func (s *TweetService) GetTweets(ids []string, params *GetTweetsParams) ([]Tweet
 	params.Ids = append(params.Ids, ids...)
 	tweets := new([]Tweet)
 	apiError := new(APIError)
-	resp, err := s.sling.New().Get("").QueryStruct(params).Receive(tweets, apiError)
+	resp, err := s.sling.New().Get("/tweets").QueryStruct(params).Receive(tweets, apiError)
 
 	return *tweets, resp, relevantError(err, *apiError)
 }
@@ -106,7 +104,7 @@ func (s *TweetService) GetTweets(ids []string, params *GetTweetsParams) ([]Tweet
 func (s *TweetService) Show(id string) (*Tweet, *http.Response, error) {
 	tweet := new(Tweet)
 	apiError := new(APIError)
-	path := fmt.Sprintf("/%v", id)
+	path := fmt.Sprintf("/tweets/%v", id)
 	resp, err := s.sling.New().Get(path).Receive(tweet, apiError)
 
 	return tweet, resp, relevantError(err, *apiError)
@@ -132,10 +130,27 @@ type Retweeter struct {
 func (s *TweetService) Retweeters(id string, params *TweetRetweeterParams) (*[]Retweeter, *http.Response, error) {
 	retweeters := new([]Retweeter)
 	apiError := new(APIError)
-	path := fmt.Sprintf("/%v/retweeted_by", id)
+	path := fmt.Sprintf("/tweets/%v/retweeted_by", id)
 	resp, err := s.sling.Get(path).QueryStruct(params).Receive(retweeters, apiError)
 
 	return retweeters, resp, relevantError(err, *apiError)
 }
+
+// StatusRetweetsParams are the parameters for StatusService.Retweets
+type RetweetParams struct {
+	TweetID 		string		`json:"tweet_id"`
+}
+
+// Retweets returns the most recent retweets of the Tweet with the given id.
+// https://developer.twitter.com/en/docs/twitter-api/tweets/retweets/api-reference/post-users-id-retweets
+func (s *TweetService) Retweet(userId string, params *RetweetParams) (*Tweet, *http.Response, error) {
+	tweet := new(Tweet)
+	apiError := new(APIError)
+	path := fmt.Sprintf("/users/%v/retweets", userId)
+	resp, err := s.sling.New().Post(path).BodyJSON(params).Receive(tweet, apiError)
+
+	return tweet, resp, relevantError(err, *apiError)
+}
+
 
 
